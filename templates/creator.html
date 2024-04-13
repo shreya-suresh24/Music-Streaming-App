@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Page</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #36454f;
+            color: #fff;
+            margin-bottom: 60px;
+            /* Adjusted margin for the player controls */
+        }
+
+        .navbar {
+            background-color: #222;
+        }
+
+        .sidebar {
+            background-color: #333;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .sidebar i {
+            margin-right: 40px;
+        }
+
+        .sidebar a i {
+            font-size: 18px;
+        }
+
+        .song-list {
+            padding: 20px;
+        }
+
+        .song-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #444;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .song-item a {
+            color: #fff;
+        }
+
+        .song-item button {
+            color: #fff;
+        }
+
+        .song-item:hover {
+            background-color: #333;
+        }
+
+        .creator-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+        .creator-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Centered playback controls */
+        .player-controls {
+            position: fixed;
+            bottom: 0;
+            left: calc(50% + 110px); /* Adjusted based on the sidebar width */
+            transform: translateX(-50%);
+            width: 80%;
+            padding: 10px;
+            background-color: #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .player-controls a {
+            font-size: 18px;
+            margin: 0 10px;
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 8px;
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .progress-bar span {
+            position: absolute;
+            height: 100%;
+            width: 0;
+            background-color: #fff;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+        }
+
+        .volume-control i {
+            margin-right: 5px;
+        }
+
+        .fa {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Display the username if available in the session -->
+        {% if username %}
+            <div style="color: #fff; padding: 10px; text-align: center; font-size: 18px;">
+                Hello, {{ username }}
+            </div>
+        {% endif %}
+        <a href="{{ url_for('creator') }}"><i class="fas fa-user"></i> Creator</a>
+        <a href="{{url_for('playlists')}}"><i class="fas fa-music"></i> Your Music</a>
+        <a href="{{ url_for('search') }}"><i class="fas fa-search"></i> Search</a>
+        <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+        <a href="{{ url_for('welcome') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h2>Your Songs</h2>
+
+        <!-- Song List for Creator Page -->
+        <!-- creator.html -->
+<!-- ... (your existing content) ... -->
+
+<div class="song-list">
+    {% for song in user_songs %}
+        <div class="song-item">
+            <a href="#" style="color: #fff;">{{ song.song_name }} - {{ song.artist_name }}</a>
+            <form method="post" action="{{ url_for('creator') }}" style="display: inline-block;">
+                <input type="hidden" name="delete_song" value="{{ song.song_id }}">
+                <button class="btn btn-danger btn-sm" type="submit">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </form>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- ... (your existing content) ... -->
+
+
+        <!-- Grid-like button to Add New Song -->
+        <a href="{{ url_for('addsong') }}" class="creator-button">Add New Song</a>
+        <a href="{{ url_for('editsong') }}" class="creator-button">Edit Song</a>
+    </div>
+
+    <!-- Centered playback controls -->
+    <div class="player-controls">
+        <div>
+            <button class="btn">
+                <i class="fas fa-step-backward" style="color: white;"></i>
+            </button>
+            <button class="btn">
+                <i class="fas fa-play" style="color: white;"></i>
+            </button>
+            <button class="btn">
+                <i class="fas fa-step-forward" style="color: white;"></i>
+            </button>
+        </div>
+        <div class="progress-bar">
+            <span style="width: 50%;"></span>
+        </div>
+        <div class="volume-control">
+            <i class="fas fa-volume-up"></i>
+            <input id="volume-slider" type="range" min="0" max="100" step="1" value="50">
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Include Font Awesome JS for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <!-- Your custom JavaScript (if needed) -->
+    <script>
+        // Add your custom JavaScript here
+    </script>
+
+</body>
+
+</html>

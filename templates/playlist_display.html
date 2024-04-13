@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ playlist.playlist_name }}</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #36454f;
+            color: #fff;
+        }
+
+        .playlist-header {
+            text-align: center;
+            padding: 20px;
+            background-color: #222;
+            margin-bottom: 20px;
+        }
+
+        .song-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #444;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .song-item a {
+            color: #fff;
+        }
+
+        .song-item button {
+            color: #fff;
+        }
+
+        .song-item:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Playlist Header -->
+    <div class="playlist-header">
+        <h2>{{ playlist.playlist_name }}</h2>
+    </div>
+
+    <!-- Playlist Songs -->
+    <div class="container">
+        {% for song in playlist_songs %}
+            <div class="song-item">
+                <a href="#" style="color: #fff;">{{ song.song_name }} - {{ song.artist_name }}</a>
+                <button class="btn btn-success btn-sm"><i class="fas fa-play"></i> Play</button>
+                <button class="btn btn-outline-secondary btn-sm"><i class="fas fa-thumbs-up"></i> Like</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Include Font Awesome JS for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+</body>
+
+</html>

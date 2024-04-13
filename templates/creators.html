@@ -1,0 +1,103 @@
+<!-- creators.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Management</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #f8f9fa;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        {% if admin_username %}
+        <div style="color: #fff; padding: 10px; text-align: center; font-size: 15px;">
+            Hello, {{ admin_username }}
+        </div>
+        {% endif %}
+        <a href="{{ url_for('admindashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="{{url_for('songs')}}"><i class="fas fa-music"></i> Songs</a>
+        <a href="{{ url_for('creators') }}"><i class="fas fa-users"></i> Creators</a>
+        <a href="{{ url_for('welcome') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+    </div>
+
+    <div class="content">
+        <h2>Creator Management</h2>
+
+        <!-- Creators List with Blacklist and Whitelist Buttons -->
+        <div class="card">
+            <h3>Creators List</h3>
+            <div class="container">
+                <ul class="list-group">
+                    {% for creator in all_creators %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ creator.name }}
+                        <div class="btn-group" role="group" aria-label="Blacklist and Whitelist Buttons">
+                            <button type="button" class="btn btn-danger btn-sm"><i class="fas fa-ban"></i> Blacklist</button>
+                            <button type="button" class="btn btn-success btn-sm"><i class="fas fa-check"></i> Whitelist</button>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

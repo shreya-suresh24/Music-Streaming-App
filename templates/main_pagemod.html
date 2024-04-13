@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Streaming App</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #36454f;
+            color: #fff;
+            margin-bottom: 60px;
+            /* Adjusted margin for the player controls */
+        }
+
+        .navbar {
+            background-color: #222;
+        }
+
+        .sidebar {
+            background-color: #333;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .sidebar i {
+            margin-right: 40px;
+        }
+
+        .sidebar a i {
+            font-size: 18px;
+        }
+
+        .song-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .song-item {
+            background-color: #444;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .song-item:hover {
+            background-color: #333;
+        }
+
+        .song-info {
+            flex-grow: 1;
+        }
+
+        .song-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        /* Centered playback controls */
+        .player-controls {
+            position: fixed;
+            bottom: 0;
+            left: calc(50% + 110px); /* Adjusted based on the sidebar width */
+            transform: translateX(-50%);
+            width: 80%;
+            padding: 10px;
+            background-color: #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .player-controls a {
+            font-size: 18px;
+            margin: 0 10px;
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 8px;
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .progress-bar span {
+            position: absolute;
+            height: 100%;
+            width: 0;
+            background-color: #fff;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+        }
+
+        .volume-control i {
+            margin-right: 5px;
+        }
+
+        .fa {
+            color: #fff;
+        }
+
+        /* Add space between sections */
+        .section-spacing {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Display the username if available in the session -->
+        {% if username %}
+            <div style="color: #fff; padding: 10px; text-align: center; font-size: 15px;">
+                Hello, {{ username }}
+            </div>
+        {% endif %}
+        <a href="{{ url_for('creator') }}"><i class="fas fa-user"></i> Creator</a>
+        <a href="{{url_for('playlists')}}"><i class="fas fa-music"></i> Your Music</a>
+        <a href="{{ url_for('search') }}"><i class="fas fa-search"></i> Search</a>
+        <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+        <a href="{{ url_for('welcome') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h2>Latest Songs</h2>
+
+        <!-- Song Grid for Latest Songs -->
+        <div class="song-grid">
+            {% for song in latest_songs %}
+                <div class="song-item">
+                    <div class="song-info">
+                        <a href="#" style="color: #fff;">{{ song.song_name }} - {{ song.artist_name }}</a>
+                    </div>
+                    <div class="song-buttons">
+                        <button class="btn btn-outline-light"><i class="far fa-heart"></i> Like</button>
+                        <button class="btn btn-outline-light"><i class="fas fa-play"></i> Play</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Add space between sections -->
+        <div class="section-spacing"></div>
+
+        <!-- Most Played Songs -->
+        <h2>Most Played Songs</h2>
+
+        <!-- Song Grid for Most Played Songs -->
+        <div class="song-grid">
+            <!-- Sample most played songs, replace with your actual songs -->
+            <div class="song-item">
+                <div class="song-info">
+                    <a href="#" style="color: #fff;">Chaleya - Arjit Singh</a>
+                </div>
+                <div class="song-buttons">
+                    <button class="btn btn-outline-light"><i class="far fa-heart"></i> Like</button>
+                    <button class="btn btn-outline-light"><i class="fas fa-play"></i> Play</button>
+                </div>
+            </div>
+            <div class="song-item">
+                <div class="song-info">
+                    <a href="#" style="color: #fff;">Flowers - Miley Cyrus</a>
+                </div>
+                <div class="song-buttons">
+                    <button class="btn btn-outline-light"><i class="far fa-heart"></i> Like</button>
+                    <button class="btn btn-outline-light"><i class="fas fa-play"></i> Play</button>
+                </div>
+            </div>
+            <div class="song-item">
+                <div class="song-info">
+                    <a href="#" style="color: #fff;">Karma - Taylor Swift</a>
+                </div>
+                <div class="song-buttons">
+                    <button class="btn btn-outline-light"><i class="far fa-heart"></i> Like</button>
+                    <button class="btn btn-outline-light"><i class="fas fa-play"></i> Play</button>
+                </div>
+            </div>
+            <div class="song-item">
+                <div class="song-info">
+                    <a href="#" style="color: #fff;">What Jhumka - Pritam</a>
+                </div>
+                <div class="song-buttons">
+                    <button class="btn btn-outline-light"><i class="far fa-heart"></i> Like</button>
+                    <button class="btn btn-outline-light"><i class="fas fa-play"></i> Play</button>
+                </div>
+            </div>
+            <div class="song-item">
+                <div class="song-info">
+                    <a href="#" style="color: #fff;">Dance The Night - Dua Lipa</a>
+                </div>
+                <div class="song-buttons">
+                    <button class="btn btn-outline-light"><i class="far fa-heart"></i> Like</button>
+                    <button class="btn btn-outline-light"><i class="fas fa-play"></i> Play</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Centered playback controls -->
+    <div class="player-controls">
+        <div>
+            <button class="btn">
+                <i class="fas fa-step-backward" style="color: white;"></i>
+            </button>
+            <button class="btn">
+                <i class="fas fa-play" style="color: white;"></i>
+            </button>
+            <button class="btn">
+                <i class="fas fa-step-forward" style="color: white;"></i>
+            </button>
+        </div>
+        <div class="progress-bar">
+            <span style="width: 50%;"></span>
+        </div>
+        <div class="volume-control">
+            <i class="fas fa-volume-up"></i>
+            <input id="volume-slider" type="range" min="0" max="100" step="1" value="50">
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Include Font Awesome JS for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <!-- Your custom JavaScript (if needed) -->
+    <script>
+        // Add your custom JavaScript here
+    </script>
+
+</body>
+
+</html>

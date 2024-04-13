@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Streaming App - Search</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #36454f; /* Dark background color */
+            color: #fff; /* Light font color */
+        }
+
+        .navbar {
+            background-color: #222;
+        }
+
+        .sidebar {
+            background-color: #333;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            color: #fff;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .sidebar i {
+            margin-right: 40px;
+        }
+
+        .sidebar a i {
+            font-size: 18px;
+        }
+
+        .container {
+            padding-top: 20px;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-results {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .result-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Display the username if available in the session -->
+        {% if username %}
+            <div style="color: #fff; padding: 10px; text-align: center; font-size: 18px;">
+                Hello, {{ username }}
+            </div>
+        {% endif %}
+        <a href="{{ url_for('creator') }}"><i class="fas fa-user"></i> Creator</a>
+        <a href="{{url_for('playlists')}}"><i class="fas fa-music"></i> Your Music</a>
+        <a href="{{ url_for('search') }}"><i class="fas fa-search"></i> Search</a>
+        <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+        <a href="{{ url_for('welcome') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h2>Search</h2>
+
+        <!-- Search Bar -->
+<div class="search-bar">
+    <form method="POST" action="{{ url_for('search') }}">
+        <div class="input-group">
+            <input type="text" name="search_query" class="form-control" placeholder="Search for songs...">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+        <!-- Search Results -->
+<div class="search-results">
+    {% for result in search_results %}
+        <div class="result-list">
+            <div class="result-item">
+                <h4>{{ result.song_name }}</h4>
+                <p>Album: {{ result.album_name }} | Artist: {{ result.artist_name }} </p>
+                <div class="song-buttons">
+                    <button class="btn btn-outline-light"><i class="far fa-heart"></i> Like</button>
+                    <button class="btn btn-outline-light"><i class="fas fa-play"></i> Play</button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% if search_results|length == 0 %}
+        <p>No results found for '{{ search_query }}'</p>
+    {% endif %}
+</div>
+
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Include Font Awesome JS for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <!-- Your custom JavaScript (if needed) -->
+    <script>
+        // Add your custom JavaScript here
+    </script>
+
+</body>
+
+</html>

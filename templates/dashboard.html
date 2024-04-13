@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #ced4da;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    {% if admin_username %}
+            <div style="color: #fff; padding: 10px; text-align: center; font-size: 15px;">
+                Hello, {{ admin_username }}
+            </div>
+        {% endif %}
+    <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="{{url_for('songs')}}"><i class="fas fa-music"></i> Songs</a>
+    <a href="{{ url_for('creators') }}"><i class="fas fa-users"></i> Creators</a>
+    <a href="{{ url_for('welcome') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</div>
+</div>
+
+<div class="content">
+    <h2>Admin Dashboard</h2>
+
+    <!-- App Statistics -->
+    <div class="card">
+        <h3>App Statistics</h3>
+        <p>Total Users: {{total_users}}</p>
+        <p>Total Creators: {{total_creators}}</p>
+        <p>Total Albums: {{total_albums}}</p>
+    </div>
+
+    <!-- Song Performance Statistics -->
+    <div class="card">
+        <h3>Song Performance Statistics</h3>
+        <p>Total Songs: {{total_songs}}</p>
+        <p>Top Performing Songs: <a href="#">Chaleya</a>, <a href="#">Flowers</a>, <a href="#">What Jhumka</a></p>
+    </div>
+
+    <!-- Content Management Options -->
+    <div class="card">
+        <h3>Content Management</h3>
+        <p><i class="fas fa-flag"></i> Flagged Content: <a href="#">Sadda Haq</a>, <a href="#">Rockstar</a></p>
+        <p><i class="fas fa-trash-alt"></i> Removed Content: <a href="#">Sheila Ki Jawaani</a>, <a href="#">Tees Maar Khan</a></p>
+    </div>
+
+    <!-- Creator Management Options -->
+    <div class="card">
+        <h3>Creator Management</h3>
+        <p><i class="fas fa-ban"></i> Blacklisted Creators: <a href="#">Playboi 123</a></p>
+        <p><i class="fas fa-check"></i> Whitelisted Creators: <a href="#">Sh1234</a></p>
+    </div>
+</div>
+
+<!-- Include Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Song</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #36454f;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <a href="{{ url_for('creator') }}"><i class="fas fa-user"></i> Creator</a>
+        <a href="{{url_for('playlists')}}"><i class="fas fa-music"></i> Your Music</a>
+        <a href="{{ url_for('search') }}"><i class="fas fa-search"></i> Search</a>
+    </div>
+    <div class="container mt-4">
+        <h2>Add New Song</h2>
+        <form action="/addsong" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="song_name">Song Name</label>
+                <input type="text" class="form-control" id="song_name" name="song_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="artist_name">Artist Name</label>
+                <input type="text" class="form-control" id="artist_name" name="artist_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lyrics">Lyrics</label>
+                <textarea class="form-control" id="lyrics" name="lyrics" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Duration (in seconds)</label>
+                <input type="number" class="form-control" id="duration" name="duration" required>
+            </div>
+
+            <div class="form-group">
+                <label for="release_date">Release Date</label>
+                <input type="date" class="form-control" id="release_date" name="release_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="song_link">Song Link</label>
+                <input type="text" class="form-control" id="song_link" name="song_link" required>
+            </div>
+
+            <div class="form-group">
+                <label for="album">Select Album</label>
+                <select class="form-control" id="album" name="album" required>
+                    <option value="existing_album">Existing Album</option>
+                    <option value="new_album">Create New Album</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="existingAlbumSection" style="display: none;">
+                <label for="existing_album">Choose Existing Album</label>
+                <select class="form-control" id="existing_album" name="existing_album">
+                    {% for album in albums %}
+                        <option value="{{ album.album_name }}">{{ album.album_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group" id="newAlbumSection" style="display: none;">
+                <label for="new_album_name">New Album Name</label>
+                <input type="text" class="form-control" id="new_album_name" name="new_album_name">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Song</button>
+        </form>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.getElementById('album').addEventListener('change', function () {
+            var existingAlbumSection = document.getElementById('existingAlbumSection');
+            var newAlbumSection = document.getElementById('newAlbumSection');
+            var albumSelect = document.getElementById('album');
+
+            if (albumSelect.value === 'existing_album') {
+                existingAlbumSection.style.display = 'block';
+                newAlbumSection.style.display = 'none';
+            } else {
+                existingAlbumSection.style.display = 'none';
+                newAlbumSection.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>
